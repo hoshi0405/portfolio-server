@@ -5,10 +5,7 @@ const Schema = mongoose.Schema;
 
 // ログインしているユーザーとの連携（使える）
 const storeSchema = new Schema({
-    userId: {
-      type: String,
-      required: true,
-    },
+  
   title: {
     type: String,
     default: "無題",
@@ -25,8 +22,8 @@ const storeSchema = new Schema({
     type: Number,
   },
   favorite: {
-   type: Array,
-    default: [],
+    type: Boolean,
+    default: false,
   },
   favoritePosition: {
     type: Number,
