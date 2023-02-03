@@ -49,17 +49,18 @@ exports.update = async (req, res) => {
     const currentStore = await Store.findById(storeId);
     if (!currentStore) return Store.status(404).json("店舗が存在しません");
     if (!store) return res.status(404).json("店舗が存在しません");
-     //現在見ているメモがお気に入りがまだされていない時
-    if (favorite !== undefined && currentStore.favorite !== favorite) {
       //現在のメモ以外のお気に入りされているメモを探して配列で返す
-      const favorites = await Store.find({
-        user: currentStore.user,
-        user: req.user._id,
-        favorite: true,
-        _id: { $ne: storeId },
-      });
+    const favorites = await Store.findById(req.params.id);
+    if (!store.favorite.includes(req.body.userId)) {
+      await post.updateOne({ $push: { favorite: req.body.userId } });
+      res.status(200).json("The post has been liked");
+      //すでにいいねが押されていたら
+    }else {
+      //いいねしているユーザーを取り除く
+      await post.updateOne({ $pull: { favorite: req.body.userId } });
+      res.status(200).json("The post has been disliked");
+    }
       console.log(favorites);
-
       if (favorite) {
         //自分以外のお気に入りされているメモの数を返す=それが今のメモの位置に設定される。
         req.body.favoritePosition = favorites.length > 0 ? favorites.length : 0;
@@ -71,7 +72,7 @@ exports.update = async (req, res) => {
           });
         }
       }
-    }
+
 
     const updatedstore = await Store.findByIdAndUpdate(storeId, {
       $set: req.body,
