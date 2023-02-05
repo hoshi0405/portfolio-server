@@ -11,18 +11,19 @@ app.use(cors({
   origin:"http://localhost:3001",
 }))
 app.use("/api/v1", require("./src/v1/routes"));
-mongoose.set('strictQuery', false);
-
-try {
-  mongoose.connect(process.env.MONGODB_URL);
-  console.log("DBと接続中");
-} catch (error){
-  console.log(error);
-}
-
-
+mongoose.set('strictQuery', false)
+mongoose.connect(process.env.MONGODB_URL, {
+     useNewUrlParser: true,
+     useUnifiedTopology: true,
+     ssl: true,
+     sslValidate: false,
+ }).then(() => {
+     console.log("DBと接続中")
+ }).catch((err) => {
+     console.log("MongoDBのエラーです")
+     console.log(err)
+ });
 
 app.listen(PORT, () => {
   console.log("server");
 });
-
