@@ -49,12 +49,14 @@ exports.update = async (req, res) => {
     const currentStore = await Store.findById(storeId);
     if (!currentStore) return Store.status(404).json("店舗が存在しません");
     if (!store) return res.status(404).json("店舗が存在しません");
+     //現在見ているメモがお気に入りがまだされていない時
+    if (favorite !== undefined && currentStore.favorite !== favorite) {
       //現在のメモ以外のお気に入りされているメモを探して配列で返す
       const favorites = await Store.find({
         user: currentStore.user,
         user: req.user._id,
         favorite: true,
-        _id: { $id: storeId },
+        _id: { $ne: storeId },
       });
       console.log(favorites);
 
@@ -69,7 +71,7 @@ exports.update = async (req, res) => {
           });
         }
       }
-
+    }
 
     const updatedstore = await Store.findByIdAndUpdate(storeId, {
       $set: req.body,
