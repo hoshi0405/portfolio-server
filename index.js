@@ -8,7 +8,7 @@ require("dotenv").config()
 // 忘れがち
 app.use(express.json());
 app.use(cors({
-  origin:"https://main--jiro-searcher.netlify.app/login://localhost:3001",
+  origin:"https://main--jiro-searcher.netlify.app",
 }))
 app.use("/api/v1", require("./src/v1/routes"));
 mongoose.set('strictQuery', false)
