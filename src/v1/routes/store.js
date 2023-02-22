@@ -2,8 +2,7 @@ const router = require("express").Router();
 const storeController = require("../controllers/store");
 const tokenHandler = require("../handlers/tokenHandler")
 
-// メモを作成
-router.post("/",tokenHandler.verifyToken, storeController.create);
+
   // ログインしているユーザーが投稿したメモを全て取得
 router.get("/", tokenHandler.verifyToken, storeController.getAll);
 

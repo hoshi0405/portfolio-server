@@ -9,8 +9,8 @@ const tokenHandler = require("../handlers/tokenHandler")
 router.post(
   "/register",
   body("username")
-    .isLength({ min: 8 })
-    .withMessage("ユーザー名は８文字以上で入力してください"),
+    .isLength({ min: 6 })
+    .withMessage("ユーザー名は6文字以上で入力してください"),
   body("password")
     .isLength({ min: 8 })
     .withMessage("パスワードは8文字以上で入力してください"),
@@ -31,8 +31,8 @@ router.post(
 router.post(
   "/login",
   body("username")
-    .isLength({ min: 8 })
-    .withMessage("ユーザー名は８文字以上で入力してください"),
+    .isLength({ min: 6 })
+    .withMessage("ユーザー名は6文字以上で入力してください"),
   body("password")
     .isLength({ min: 8 })
     .withMessage("パスワードは8文字以上で入力してください"),
