@@ -29,7 +29,5 @@ exports.verifyToken = async (req, res, next) => {
     }
     req.user = user;
     next();
-  } else {
-    return res.status(401).json("権限がありません");
   }
 };
