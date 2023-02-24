@@ -4,21 +4,16 @@ const Schema = mongoose.Schema;
 
 
 // ログインしているユーザーとの連携（使える）
-const storeSchema = new Schema({
-  title: {
-    type: String,
-    default: "無題",
+const favoriteSchema = new Schema({
+  user: {
+    type: Schema.Types.ObjectId,
+    ref: "User",
+    required: true,
   },
-  latitude:{
-    type: String,
-    default: "緯度",
-  },
-  longitude:{
-    type: String,
-    default: "軽度",
-  },
-  position:{
-    type: Number,
+  user: {
+    type: Schema.Types.ObjectId,
+    ref: "Store",
+    required: true,
   },
   favorite: {
     type: Boolean,
@@ -31,4 +26,4 @@ const storeSchema = new Schema({
 });
 
 
-module.exports = mongoose.model("Store", storeSchema);
+module.exports = mongoose.model("Favorite", favoriteSchema);

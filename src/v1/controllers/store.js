@@ -1,5 +1,6 @@
 const { deleteOne } = require("../models/store");
-const Store = require("../models/store")
+const Store = require("../models/store");
+const Favorite = require("../models/favorite");
 
 
 exports.create = async (req, res) => {
@@ -45,14 +46,12 @@ exports.update = async (req, res) => {
     if (latitude === "") req.body.latitude = "軽度";
     if (longitude === "") req.body.longitude = "経度";
 
-    const store = await Store.findOne({  _id: storeId })
     const currentStore = await Store.findById(storeId);
     if (!currentStore) return Store.status(404).json("店舗が存在しません");
-    if (!store) return res.status(404).json("店舗が存在しません");
      //現在見ているメモがお気に入りがまだされていない時
     if (favorite !== undefined && currentStore.favorite !== favorite) {
       //現在のメモ以外のお気に入りされているメモを探して配列で返す
-      const favorites = await Store.find({
+      const favorites = await Favorite.find({
         user: currentStore.user,
         user: req.user._id,
         favorite: true,
