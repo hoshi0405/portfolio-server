@@ -21,8 +21,8 @@ const storeSchema = new Schema({
     type: Number,
   },
   favorite: {
-    type: Boolean,
-    default: false,
+    type: Array,
+    default: [],
   },
   favoritePosition: {
     type: Number,
