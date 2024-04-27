@@ -88,8 +88,7 @@ exports.favorite = async (req, res) => {
 exports.getFavorites = async (req, res) => {
   try {
     const favorites = await Store.find({
-      user: req.user._id,
-      favorite: res.user._id
+      favorite: req.user._id
     }).sort("-position");
     res.status(200).json(favorites);
   } catch (err) {
