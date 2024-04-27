@@ -63,9 +63,9 @@ exports.favorite = async (req, res) => {
    });
 
     //まだ投稿にいいねが押されていなかったら
-   if (!store.favorite.includes(req.user._id)) {
+   if (store.favorite.includes(req.user._id)) {
       await store.updateOne({
-        $push: {
+        $pull: {
           favorite: req.user._id
         }
       });
@@ -74,12 +74,12 @@ exports.favorite = async (req, res) => {
     } else {
       //いいねしているユーザーを取り除く
       await store.updateOne({
-        $pull: {
+        $push: {
           favorite: req.user._id
         }
       });
       res.status(200).json(updatedstore);
-    }
+   }
   } catch (err) {
     res.status(500).json(err);
   }
@@ -88,10 +88,11 @@ exports.favorite = async (req, res) => {
 exports.getFavorites = async (req, res) => {
   try {
     const favorites = await Store.find({
-      user: req.user._id,
-      favorite: true,
-    }).sort("-favoritePosition");
+      user: res.user._id,
+      favorite: res.user._id
+    }).sort("-position");
     res.status(200).json(favorites);
+    console.log(favorites);
   } catch (err) {
     res.status(500).json(err);
   }
