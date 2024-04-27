@@ -92,7 +92,6 @@ exports.getFavorites = async (req, res) => {
       favorite: res.user._id
     }).sort("-position");
     res.status(200).json(favorites);
-    console.log(favorites);
   } catch (err) {
     res.status(500).json(err);
   }
